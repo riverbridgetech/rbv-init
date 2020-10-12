@@ -18,3 +18,7 @@
 <!-- SCRIPTS
   ================================================== -->
 <script src="js/modernizr.js"></script><!-- Modernizr -->
+
+<!-- START : custom JS [dn by Prathamesh on 12102020] -->
+<script src="js/custom.js"></script><!-- Modernizr -->
+<!-- END : custom JS [dn by Prathamesh on 12102020] -->

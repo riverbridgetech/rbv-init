@@ -114,15 +114,20 @@
                 	<div class="col-md-6 col-sm-6 donation-form-infocol">
                     	<h4>Register</h4>
        					<div class="row">
-                			<div class="col-md-6 col-sm-6 col-xs-6">
+                			<!-- <div class="col-md-6 col-sm-6 col-xs-6">
                         		<input type="text" class="form-control" placeholder="First name">
                             </div>
                 			<div class="col-md-6 col-sm-6 col-xs-6">
                         		<input type="text" class="form-control" placeholder="Last name">
+                            </div> -->
+							<div class="col-md-12 col-sm-12 col-xs-12">
+                        		<input type="text" class="form-control" placeholder="Your Name">
                             </div>
                     	</div>
-                        <input type="text" class="form-control" placeholder="Email address">
-                        <input type="text" class="form-control" placeholder="Phone no.">
+                        <!-- <input type="text" class="form-control" placeholder="Email address"> -->
+                        <input type="text" class="form-control" placeholder="Phone no." maxlength="10" minlength="10" onkeyup="sendOtp(this.value);">
+                        
+						<input type="text" class="form-control" placeholder="6 digits" maxlength="6" minlength="6" id="input-otp" style="display:none;">
 
                         <button type="button" class="btn btn-primary">Register now</button>
                         <!-- <label class="checkbox"><input type="checkbox"> Register me on this website</label> -->
