@@ -1,5 +1,5 @@
 <?php
-    function generateRandomStringMobileVerification($length, $type)
+    function generateRandomString($length, $type)
     {
 		$characters = '';
 		if($type == 'user_password')
