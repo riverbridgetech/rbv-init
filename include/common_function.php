@@ -1,7 +1,15 @@
 <?php
-    function generateRandomStringMobileVerification($length)
+    function generateRandomStringMobileVerification($length, $type)
     {
-        $characters = '123456789';
+		$characters = '';
+		if($type == 'user_password')
+		{
+			$characters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+		}
+		elseif($type == 'mobile_verification')
+		{
+			$characters = '123456789';
+		}
         $randomString = '';
         for ($i = 0; $i < $length; $i++) 
         {

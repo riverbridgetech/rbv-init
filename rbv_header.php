@@ -9,7 +9,23 @@
                     <a href="index.php" class="sticky-retina-logo"><img src="images/rbv-logo-black%402x.png" alt="Logo" width="199" height="30"></a>
                 </div>
              	<a href="#" class="visible-sm visible-xs" id="menu-toggle"><i class="fa fa-bars"></i></a>
-                <div class="header-info-col"><a href="#" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#LoginModal">Login</a></div>
+                <div class="header-info-col">
+                    <?php
+                    if(!isset($_SESSION['rbv_init_user']))
+                    {
+                        ?>
+                        <a href="#" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#LoginModal">Login</a>    
+                        <?php
+                    }
+                    else
+                    {
+                        ?>
+                        <a href="<?php echo BASE_FOLDER.'logout.php'; ?>" class="btn btn-primary btn-lg">Logout</a>
+                        <?php
+                    }
+                    ?>
+                    
+                </div>
                 <ul class="sf-menu dd-menu pull-right" role="menu">
                     <li><a href="#section-home" class="page-scroll">Home</a>
                             <!-- <ul>

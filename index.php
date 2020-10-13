@@ -1,3 +1,17 @@
+<?php
+    include('include/connection.php');
+
+    // if(!isset($_SESSION['rbv_init_user']))
+    // {
+    //     // header("Location:".BASE_FOLDER."");
+    //     // exit();
+    // }
+    // else
+    // {
+    //     var_dump($_SESSION['rbv_init_user']);
+    // }
+?>
+
 <!DOCTYPE HTML>
 <html class="no-js">
 

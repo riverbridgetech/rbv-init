@@ -121,15 +121,20 @@
                         		<input type="text" class="form-control" placeholder="Last name">
                             </div> -->
 							<div class="col-md-12 col-sm-12 col-xs-12">
-                        		<input type="text" class="form-control" placeholder="Your Name">
+                        		<input type="text" class="form-control" placeholder="Your Name" id="user_name">
                             </div>
                     	</div>
                         <!-- <input type="text" class="form-control" placeholder="Email address"> -->
-                        <input type="text" class="form-control" placeholder="Phone no." maxlength="10" minlength="10" onkeyup="sendOtp(this.value);">
-                        
-						<input type="text" class="form-control" placeholder="6 digits" maxlength="6" minlength="6" id="input-otp" style="display:none;">
-
-                        <button type="button" class="btn btn-primary">Register now</button>
+                        <input type="text" class="form-control" placeholder="Phone no." maxlength="10" minlength="10" id="reg_mobile_num" onkeyup="sendOtp(this.value);">
+                        <div id="div_reg_otp" style="display:none;">
+							<input type="text" class="form-control" placeholder="6 digits" maxlength="6" minlength="6" id="input-otp" style="width: 28%;float:left;">
+							<span id="countdown"></span>
+							<div style="clear:both;"></div>
+							<div class="col-sm-12" id="Resendbtn">
+								<a href="javascript:void(0);" id="button-resend-otp" onclick="resendOtp();">Resend OTP</a>
+							</div>
+						</div>
+                        <button type="button" class="btn btn-primary" onclick="register_user();">Register now</button>
                         <!-- <label class="checkbox"><input type="checkbox"> Register me on this website</label> -->
 
                     </div>

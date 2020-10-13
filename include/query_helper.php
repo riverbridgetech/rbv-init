@@ -43,7 +43,6 @@
             array_push($params, $value);
         }
 
-        
         foreach($params as $key => $value) 
         $tmp[$key] = &$params[$key];
         
@@ -75,6 +74,7 @@
     }
 
     //updated by punit 16072020 for prevention
+    // return $row 
     function check_exist($table,$where,$not_where_array=array(),$and_like_array=array(),$or_like_array=array())
     {
             
@@ -133,7 +133,14 @@
             $params = array();
             foreach($where as $field1 => $value1 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value1);
             }
             
@@ -208,11 +215,13 @@
         {
             $row = $result->fetch_array();
             $stmt_chexist->close();
-            return $row['id'];
+            // return $row['id'];
+            return $row;
         }
     }
 
     //updated by punit 23072020 for prevention
+    // return result
     function lookup_value($table,$col_array=array(),$where=array(),$not_where_array=array(),$and_like_array=array(),$or_like_array=array())
     {
         global $db_con;
@@ -422,8 +431,15 @@
             {
                 $params = array();
                 foreach($where as $field1 => $value1 )
-                {   
-                    $params[0] .= 's';
+                { 
+                    if(isset($params[0]))
+                    {
+                        $params[0] .= 's';
+                    }  
+                    else
+                    {
+                        $params[0] = 's';
+                    }
                     array_push($params, $value1);
                 }
                 
