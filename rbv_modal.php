@@ -87,9 +87,9 @@
        			<div class="row">
                 	<div class="col-md-6 col-sm-6 donation-form-infocol">
                     	<h4>Login</h4>
-                        <input type="text" class="form-control" placeholder="Mobile No">
-                        <input type="text" class="form-control" placeholder="Password">
-                        <button type="button" class="btn btn-primary">Login now</button>
+                        <input type="text" class="form-control" placeholder="Mobile No" id="login_mobile_num" name="login_mobile_num" autocomplete="off">
+                        <input type="text" class="form-control" placeholder="Password" id="login_password" name="login_password" autocomplete="off">
+                        <button type="button" class="btn btn-primary" onClick="getLogin();">Login now</button>
        					<!-- <div class="row">
                 			<div class="col-md-8 col-sm-8 col-xs-8">
                         		<input type="text" class="form-control" placeholder="State/City">
@@ -121,13 +121,13 @@
                         		<input type="text" class="form-control" placeholder="Last name">
                             </div> -->
 							<div class="col-md-12 col-sm-12 col-xs-12">
-                        		<input type="text" class="form-control" placeholder="Your Name" id="user_name">
+                        		<input type="text" class="form-control" placeholder="Your Name" id="user_name" autocomplete="off">
                             </div>
                     	</div>
                         <!-- <input type="text" class="form-control" placeholder="Email address"> -->
-                        <input type="text" class="form-control" placeholder="Phone no." maxlength="10" minlength="10" id="reg_mobile_num" onkeyup="sendOtp(this.value);">
+                        <input type="text" class="form-control" placeholder="Phone no." maxlength="10" minlength="10" id="reg_mobile_num" onkeyup="sendOtp(this.value);" autocomplete="off">
                         <div id="div_reg_otp" style="display:none;">
-							<input type="text" class="form-control" placeholder="6 digits" maxlength="6" minlength="6" id="input-otp" style="width: 28%;float:left;">
+							<input type="text" class="form-control" placeholder="6 digits" maxlength="6" minlength="6" id="input-otp" style="width: 28%;float:left;" autocomplete="off">
 							<span id="countdown"></span>
 							<div style="clear:both;"></div>
 							<div class="col-sm-12" id="Resendbtn">

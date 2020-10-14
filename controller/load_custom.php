@@ -211,4 +211,101 @@
             quit('Something went wrong, Please try after sometime!');
         }
     }
+
+    if((isset($obj->user_login)) == "1" && (isset($obj->user_login)))
+    {
+        $user_mobile   = $obj->user_mobile;
+        $user_password = $obj->user_password;
+
+        if($user_mobile != '' && $user_password != '')
+        {
+            // check for mobile number
+            $row_get_user_data = check_exist('tbl_users', array('user_mobile'=>$user_mobile, 'user_mobile_verification'=>1));
+
+            if($row_get_user_data)
+            {
+                $password = $row_get_user_data['user_password'];
+                $slat     = $row_get_user_data['user_salt'];
+
+                $u_password = md5($user_password.$slat);
+
+                if($password == $u_password)
+                {
+                    $_SESSION['rbv_init_user'] = [];
+                    $_SESSION['rbv_init_user'] = $row_get_user_data;
+
+                    quit('Success', 1);
+                }
+                else
+                {
+                    quit('Password not matched!');
+                }
+            }
+            else
+            {
+                quit('Something went wrong, Please try after sometime!');
+            }
+        }
+        else
+        {
+            quit('Both Mobile number and Password field is required!');
+        }
+    }
+
+    if((isset($obj->store_user_client_token)) == "1" && (isset($obj->store_user_client_token)))
+    {
+        $user_id           = $obj->user_id;
+        $user_client_token = $obj->user_client_token;
+        $client_id         = $obj->client_id;
+
+        if($user_id != '' && $user_client_token != '' && $client_id != '')
+        {
+            // have to check Already exists
+            $row_chk_isExists = check_exist('tbl_user_client_token', array('uct_user_id'=>$user_id, 'uct_client_id'=>$client_id));
+
+            if(!$row_chk_isExists)
+            {
+                $tokendatetime = new DateTime('now');
+                $tokendatetime->modify('+3 month'); 
+                $expirydate = $tokendatetime->format('Y-m-d H:i:s');
+
+                // insert one entry for respective user and client
+                $insertUserClientToken                           = [];
+                $insertUserClientToken['uct_user_id']            = $user_id;
+                $insertUserClientToken['uct_client_id']          = $client_id;
+                $insertUserClientToken['uct_token']              = $user_client_token;
+                $insertUserClientToken['uct_token_created_date'] = $datetime;
+                $insertUserClientToken['uct_token_expiry_date']  = $expirydate;
+                $insertUserClientToken['uct_status']             = 1;
+                $insertUserClientToken['uct_created_date']       = $datetime;
+                $res_insert_user_client_token = insert('tbl_user_client_token', $insertUserClientToken);
+
+                if($res_insert_user_client_token)
+                {
+                    quit('Success', 1);
+                }
+                else
+                {
+                    quit('Something went wrong, Please try after sometime!');
+                }
+            }
+            else
+            {
+                $status = $row_chk_isExists['uct_status'];
+
+                if($status)
+                {
+                    quit('Success', 1);
+                }
+                else
+                {
+                    quit('Something went wrong, Please try after sometime!');
+                }
+            }
+        }
+        else
+        {
+            quit('Something went wrong, Please try after sometime!');
+        }
+    }
 ?>

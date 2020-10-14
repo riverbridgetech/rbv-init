@@ -255,3 +255,110 @@ function register_user()
         }	
     });
 }
+
+function getLogin()
+{
+    let user_mobile   = $('#login_mobile_num').val();
+    let user_password = $('#login_password').val();
+
+    res = onlyNumbers(user_mobile);
+
+    if(res)
+    {
+        var sendInfo  = {"user_mobile":user_mobile, "user_password":user_password, "user_login":1};
+        var loginUser = JSON.stringify(sendInfo);
+
+        $.ajax({
+            type       : "POST",
+            url        : "controller/load_custom.php",
+            data       : loginUser,
+            processData: false,
+            contentType: false,
+            cache      : false,
+            success    : function(msg)
+            {
+                data = JSON.parse(msg);
+                
+                if(data.Success == "Success")
+                {
+                    console.log(data.resp);
+                    window.location.replace("http://localhost/rbv-init/");
+                    return false;
+                }
+                else if(data.Success == "fail") 
+                {
+                    alert(data.resp);
+                    return false;
+                }	
+            },
+            error: function (request, status, error)
+            {
+                return false;
+                // alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);	
+            },
+            complete: function()
+            {
+                return false;
+                // $('#button-resend-otp').button('reset');	
+            }	
+        });
+    }
+    else
+    {
+        $('#login_mobile_num').val('');
+        return false;
+    }
+}
+
+function getParticipate(user_id, user_client_token, client_id, micro_website_link, client_api_link)
+{
+    // from here we will call the API for respective client [i.e. client_api_link]
+    // Consider for now, resp = true, then what will happen in our end
+
+    resp = true;
+
+    if(resp)
+    {
+        // store this data at our end and on success, redirect to respective micro_site
+        var sendInfo  = {"user_id":user_id, "user_client_token":user_client_token, "client_id":client_id, "store_user_client_token":1};
+        var loginUser = JSON.stringify(sendInfo);
+
+        $.ajax({
+            type       : "POST",
+            url        : "controller/load_custom.php",
+            data       : loginUser,
+            processData: false,
+            contentType: false,
+            cache      : false,
+            success    : function(msg)
+            {
+                data = JSON.parse(msg);
+                
+                if(data.Success == "Success")
+                {
+                    window.location.replace(micro_website_link);
+                    return false;
+                }
+                else if(data.Success == "fail") 
+                {
+                    alert(data.resp);
+                    return false;
+                }	
+            },
+            error: function (request, status, error)
+            {
+                return false;
+                // alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);	
+            },
+            complete: function()
+            {
+                return false;
+                // $('#button-resend-otp').button('reset');	
+            }	
+        });
+    }
+    else
+    {
+        // pending [have to discuss with Punit sir]
+    }
+}

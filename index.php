@@ -1,5 +1,6 @@
 <?php
     include('include/connection.php');
+    include('include/query_helper.php');
 
     // if(!isset($_SESSION['rbv_init_user']))
     // {
@@ -106,120 +107,104 @@
                 	<div class="text-align-center">
                            <h2 class="block-title block-title-center">Initiatives</h2>
                            <div id="section-education" style="padding-top:10px"> &nbsp;</div>       
-                    </div>
-                
-                </div>
-                
-                
-
-                <div class="parallax parallax5 parallax-light text-align-center padding-tb100" style="background-image:url(images/RB-education-min.jpg)">
-                    <h2>Learning</h2>
-                    <p style="color:#fff;font-size:18px;font-weight:normal">Learning should be <strong>Personal and Accessible</strong> at an Individual level in a meaningful way, thus enhance Knowledge and Adaptability.</p>
-                    <p style="color:#fff;font-size:18px;font-weight:normal">Real-Time Learning is going to be the norm due to the vibrancy and change of pace in all facets of life.</p>
-                    <p style="color:#fff;font-size:18px;font-weight:normal">Learning Disruptions need to take cognizance and ensure <strong>Education for Everyone</strong> as a fundamental right. </p>
-                    <!-- <a href="#" class="parallax-icon-link"><i class="fa fa-5x fa-play-circle-o"></i></a> -->
+                    </div>                
                 </div>
 
-                <div class="carousel-wrapper">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img src="images/RB-initiatives-small-banner-02-min.jpg" alt="" class="img-responsive">
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <div class="story-slider-content">
-                                <div class="story-slider-table">
-                                    <div class="story-slider-cell">
-                                        <blockquote>
-                                            <h3>Don’t Memorise</h3>
-                                            <p>Don’t Memorise creates Captivating Educational Videos. Relating real life to theory using a simple story format makes educational content accessible to all styles of learners. More importantly each <strong>Topic</strong> is covered through a series of bite-sized videos which allows students and teachers alike to appropriately pace learning.</p>
-                                            <a href="https://www.dontmemorise.com" class="btn btn-primary" target="_blank">Start Learning</a>
-                                        </blockquote>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                      </div>
-                      <div id="section-skill" style="padding-top:10px"> &nbsp;</div>      
-               	</div>
+                <?php
+                    // List of all Clients
+                    $res_get_clients = lookup_value('tbl_clients', array(), array('client_status'=>1),array(),array(),array(),array('client_sort_order'));
 
-                   <div class="parallax parallax-light text-align-center padding-tb100" style="background-image:url(images/RB-productivity.jpg)">
-                    <h2>Productivity</h2>
-                    <p style="color:#fff;font-size:18px;font-weight:normal">Food Security is a universal threat and if addressed correctly, has a possible solution in balancing <strong>Farmer-Consumer</strong> equilibrium.</p>
-                    <p style="color:#fff;font-size:18px;font-weight:normal">The Farmer, as a Core Stakeholder, needs to be enabled through digital platforms to disseminate right Knowledge at <strong>Individual and Collective</strong> levels:<br> thus enhance  Collective Functioning to Increase Efficiency and Improve Productivity.</p>
-                    <p style="color:#fff;font-size:18px;font-weight:normal">Further, an Agri Eco-System has to be enabled to address Transparency and Trust to drive farmer-consumer connect. </p>
-                    <!-- <a href="#" class="parallax-icon-link"><i class="fa fa-5x fa-play-circle-o"></i></a> -->
-                </div>
+                    if($res_get_clients)
+                    {
+                        $html_data = '';
 
-                <div class="carousel-wrapper">
-                    <div class="row">
+                        while ($row_get_clients = mysqli_fetch_array($res_get_clients)) 
+                        {
+                            $client_id         = $row_get_clients['client_id'];
+                            $client_name       = $row_get_clients['client_name'];
+                            $client_micro_link = $row_get_clients['client_micro_link'];
+                            $client_api_link   = $row_get_clients['client_api_link'];
+                            $client_desc_1     = $row_get_clients['client_desc_1'];
+                            $client_desc_2     = $row_get_clients['client_desc_2'];
+                            $client_img_1      = $row_get_clients['client_img_1'];
+                            $client_img_2      = $row_get_clients['client_img_2'];
+                            $client_sort_order = $row_get_clients['client_sort_order'];
+                            
+                            $html_data .= '<div class="parallax parallax-light text-align-center padding-tb100" style="background-image:url(images/'.$client_img_1.')">';
+                                $html_data .= $client_desc_1;
+                            $html_data .= '</div>';
 
-                        <div class="col-md-6">
-                            <div class="story-slider-content">
-                                <div class="story-slider-table">
-                                    <div class="story-slider-cell">
-                                        <blockquote>
-                                            <h3>Agribridge Platform</h3>
-                                            <p>Agribridge enables the stakeholders of the Agri Eco-System by Mentoring Farmers; Cluster Management of Collective Farmer Units; enabling Certifiers; Build Trust & Farmer Profiles; Negate Trust Deficit among Consumers & enhance Farmer-Consumer connect by improving Productivity, Traceability & Certification. </p>
-                                            <p><strong>Agribridge Connect</strong>, going forward, would enhance the Post-Harvest Eco-System through Agribridge Mart as well as <strong>Pre & Post Harvest</strong> requirements through an <strong>Integrated Credit Platform</strong> in true spirit. </p>
-                                             <a href="http://www.agribridge.in" class="btn btn-primary" target="_blank">Learn More</a> 
-                                        </blockquote>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <img src="images/RB-productivity-01-min.jpg" alt="" class="img-responsive">
-                        </div>
-                      </div>
-                      <div id="section-wellness" style="padding-top:10px"> &nbsp;</div>      
-               	</div>     
-                
-                <div class="parallax  parallax-light text-align-center padding-tb100" style="background-image:url(images/RB-wellness-01-min.jpg)">
-                    <h2>Wellness</h2>
-                    <p style="color:#fff;font-size:18px;font-weight:normal">Ancient Ayurvedic Practices and Knowledge can empower Individuals, households, communities at local/regional levels.</p>
-                    <p style="color:#fff;font-size:18px;font-weight:normal">The focus should be on using Locally Available Ingredients with simple processes at household or the local community level in an affordable way.</p>
-                    <p style="color:#fff;font-size:18px;font-weight:normal">Upliftment of noble causes like Swachh Bharat can address the current crisis with <strong>Prevention & Spread</strong> of diseases and pandemics.</p>
-                    <p style="color:#fff;font-size:18px;font-weight:normal">In the true spirit of Swachh Bharat, the focus should be on driving <strong>Hygiene & Wellness</strong> as a safeguard for true <strong>Nation Building</strong>.</p>
-                    <!-- <a href="#" class="parallax-icon-link"><i class="fa fa-5x fa-play-circle-o"></i></a> -->
-                </div>
+                            $html_data .= '<div class="carousel-wrapper">';
+                                $html_data .= '<div class="row">';
 
-                <div class="carousel-wrapper">
-                    <div class="row">
-                        
-
-                        <div class="col-md-6">
-                        
-                            <img src="images/RB-initiatives-small-banner-01-min.jpg" alt="" class="img-responsive">
-                        </div>
-                        <div class="col-md-6">
-                            <div class="story-slider-content">
-                                <div class="story-slider-table">
-                                    <div class="story-slider-cell">
-                                        <blockquote>
-                                            <h3>Herbostra</h3>
-                                            <!-- <p>Herbostra – derived from 'Herb' & 'Stra' - meaning "Originated from Herbs", is an innovative Ayurvedic company that is modernizing conventional Ayurvedic products by making them more palatable, presentable and accessible to all.</p> <p>Herbostra uses Ayurvedic knowledge along with modern science to develop its own formulations for Innovative products which are effective and consumer friendly.</p>
-                                            <p>Herbostra also offers expert consultations and helps disseminate Ayurvedic Knowledge at an individual, institutional and at a community level through its robust technology backend that helps consumers interact seamlessly with the information database to know more about every Ayurvedic solution, its origins and application.</p>
-                                            <p>Herbostra aspires to empower 'Wellness Conscious' individuals with knowledge and application of Natural Living and become a focal point for the promotion of Modern Ayurveda as primary therapy to rediscover the true spirit of ancient healing.</p> -->
-                                            <p>Herbostra brings in the right Know-How and Technology to disseminate Ancient Ayurvedic Practices in our daily lives.</p>
-                                            <p>With an appropriate blend of Simple, Affordable and Localised approach, it helps Prevent diseases and Safeguard lives, thus enriching <strong>Wellness for All</strong>.</p>
-                                            <a href="https://www.herbostra.com" class="btn btn-primary" target="_blank">Learn More</a>
-                                        </blockquote>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="section-wellness" style="padding-top:10px"> &nbsp;</div>      
-               	</div>
-
-                   
+                                    if($client_sort_order%2 != 0)
+                                    {
+                                        $html_data .= '<div class="col-md-6">';
+                                            $html_data .= '<img src="images/'.$client_img_2.'" alt="" class="img-responsive">';
+                                        $html_data .= '</div>';   
+                                    }
                
-          	</div>
+                                    $html_data .= '<div class="col-md-6">';
+                                        $html_data .= '<div class="story-slider-content">';
+                                            $html_data .= '<div class="story-slider-table">';
+                                                $html_data .= '<div class="story-slider-cell">';
+                                                    $html_data .= '<blockquote>';
+                                                        $html_data .= '<h3>'.$client_name.'</h3>';
+                                                        $html_data .= $client_desc_2;
+
+                                                        if(isset($_SESSION['rbv_init_user']))
+                                                        {
+                                                            // check already participated or not
+                                                            $row_chk_participated = check_exist('tbl_user_client_token', array('uct_user_id'=>$_SESSION['rbv_init_user']['user_id'], 'uct_client_id'=>$client_id));
+                                                            
+                                                            if($row_chk_participated)
+                                                            {
+                                                                $uct_status = $row_chk_participated['uct_status'];
+
+                                                                if($uct_status) // Status == 1
+                                                                {
+                                                                    // chk expiry date
+                                                                    // if not expired show "GO TO" btn
+                                                                    $html_data .= '<a href="'.$client_micro_link.'" class="btn btn-primary" target="_blank">Go To</a>';  
+                                                                    // else renew the token
+                                                                    // ask Punit sir for further process
+                                                                }
+                                                                else    // status == 0
+                                                                {
+                                                                    // pending [ask punit sir]
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                $userid            = (string)$_SESSION['rbv_init_user']['user_id'];
+                                                                $clientid          = (string)$client_id;
+                                                                $user_client_token = md5($userid.$clientid);
+
+                                                                $html_data .= '<a href="javascript:void(0);" class="btn btn-primary" onClick="getParticipate('.$_SESSION['rbv_init_user']['user_id'].', \''.$user_client_token.'\', '.$client_id.', \''.$client_micro_link.'\', \''.$client_api_link.'\');">Participated</a>';  
+                                                            }
+                                                        }
+                                                    $html_data .= '</blockquote>';                                                    
+                                                $html_data .= '</div>';
+                                            $html_data .= '</div>';
+                                        $html_data .= '</div>';
+                                    $html_data .= '</div>';
+
+                                    if($client_sort_order%2 == 0)
+                                    {
+                                        $html_data .= '<div class="col-md-6">';
+                                            $html_data .= '<img src="images/'.$client_img_2.'" alt="" class="img-responsive">';
+                                        $html_data .= '</div>';
+                                    }
+
+                                $html_data .= '</div>';
+
+                                $html_data .= '<div id="section-skill" style="padding-top:10px"> &nbsp;</div>';
+                            $html_data .= '</div>';
+                        }
+                        echo $html_data;
+                    }
+                ?>
+            </div>
             
             <div id="section-team" class="padding-tb75 lgray-bg">
                 <div class="container">

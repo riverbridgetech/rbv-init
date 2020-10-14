@@ -157,7 +157,14 @@
             $params = array();
             foreach($not_where_array as $field2 => $value2 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value2);
             }
             
@@ -174,7 +181,14 @@
             $params = array();
             foreach($and_like_array as $field3 => $value3 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value3);
             }
             
@@ -191,7 +205,14 @@
             $params = array();
             foreach($or_like_array as $field4 => $value4 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value4);
             }
             
@@ -222,7 +243,7 @@
 
     //updated by punit 23072020 for prevention
     // return result
-    function lookup_value($table,$col_array=array(),$where=array(),$not_where_array=array(),$and_like_array=array(),$or_like_array=array())
+    function lookup_value($table,$col_array=array(),$where=array(),$not_where_array=array(),$and_like_array=array(),$or_like_array=array(),$order_by=array())
     {
         global $db_con;
         $colums  =implode(',',$col_array);
@@ -268,6 +289,13 @@
                 $sql  .= " AND ".$field4 ." like ? ";
             }
         }
+
+        if(!empty($order_by))
+        {
+            $orderByCols = implode(',', $order_by);
+            $sql .= " ORDER BY ".$orderByCols;
+        }
+
         // 	return $sql;
     
         $stmt_lookup = $db_con->prepare($sql);
@@ -278,7 +306,14 @@
             $params = array();
             foreach($where as $field1 => $value1 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value1);
             }
             
@@ -295,7 +330,14 @@
             $params = array();
             foreach($not_where_array as $field2 => $value2 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value2);
             }
             
@@ -312,7 +354,14 @@
             $params = array();
             foreach($and_like_array as $field3 => $value3 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value3);
             }
             
@@ -329,7 +378,14 @@
             $params = array();
             foreach($or_like_array as $field4 => $value4 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value4);
             }
             
@@ -456,7 +512,14 @@
                 $params = array();
                 foreach($not_where_array as $field2 => $value2 )
                 {   
-                    $params[0] .= 's';
+                    if(isset($params[0]))
+                    {
+                        $params[0] .= 's';
+                    }
+                    else
+                    {
+                        $params[0] = 's';
+                    }
                     array_push($params, $value2);
                 }
                 
@@ -473,7 +536,14 @@
                 $params = array();
                 foreach($and_like_array as $field3 => $value3 )
                 {   
-                    $params[0] .= 's';
+                    if(isset($params[0]))
+                    {
+                        $params[0] .= 's';
+                    }
+                    else
+                    {
+                        $params[0] = 's';
+                    }
                     array_push($params, $value3);
                 }
                 
@@ -490,7 +560,14 @@
                 $params = array();
                 foreach($or_like_array as $field4 => $value4 )
                 {   
-                    $params[0] .= 's';
+                    if(isset($params[0]))
+                    {
+                        $params[0] .= 's';
+                    }
+                    else
+                    {
+                        $params[0] = 's';
+                    }
                     array_push($params, $value4);
                 }
                 
@@ -564,7 +641,14 @@
             $params = array();
             foreach($where as $field1 => $value1 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value1);
             }
             
@@ -581,7 +665,14 @@
             $params = array();
             foreach($not_where_array as $field2 => $value2 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value2);
             }
             
@@ -598,7 +689,14 @@
             $params = array();
             foreach($and_like_array as $field3 => $value3 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value3);
             }
             
@@ -615,7 +713,14 @@
             $params = array();
             foreach($or_like_array as $field4 => $value4 )
             {   
-                $params[0] .= 's';
+                if(isset($params[0]))
+                {
+                    $params[0] .= 's';
+                }
+                else
+                {
+                    $params[0] = 's';
+                }
                 array_push($params, $value4);
             }
             
