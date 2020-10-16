@@ -331,14 +331,19 @@ function getLogin()
 
 function updateUserProfile()
 {
-    let user_id     = $('#hid_user_id').val();
-    let user_email  = $('#user_email').val();
-    let user_grade  = $('#ddl_grade_list').val();
-    let user_school = $('#user_school').val();
+    let user_id          = $('#hid_user_id').val();
+    let user_email       = $('#user_email').val();
+    let user_parent_name = $('#user_parent_name').val();
+    let user_grade       = $('#ddl_grade_list').val();
+    let user_school      = $('#user_school').val();
+    let user_state       = $('#user_state').val();
+    let user_dist        = $('#user_dist').val();
+    let user_taluka      = $('#user_taluka').val();
+    let user_village     = $('#user_village').val();
 
     if(user_email != '')
     {
-        var sendInfo     = {"user_id":user_id, "user_email":user_email, "user_grade":user_grade, "user_school":user_school, "updateUserProfile":1};
+        var sendInfo     = {"user_id":user_id, "user_email":user_email, "user_parent_name":user_parent_name, "user_grade":user_grade, "user_school":user_school, "user_state":user_state, "user_dist":user_dist, "user_taluka":user_taluka, "user_village":user_village, "updateUserProfile":1};
         var updateUserProfile = JSON.stringify(sendInfo);
         
         $.ajax({
@@ -358,7 +363,7 @@ function updateUserProfile()
                 if(data.Success == "Success")
                 {
                     $('#section_user_profile').hide();
-                    $('#section_services').show();
+                    getSectionServiceData();
                     return false;
                 }
                 else if(data.Success == "fail") 
@@ -382,6 +387,50 @@ function updateUserProfile()
         alert('Please enter an Email-ID!');
         return false;
     }
+}
+
+function getSectionServiceData()
+{
+    var sendInfo     = {"get_section_service_data":1};
+    var section_service_data = JSON.stringify(sendInfo);
+    
+    $.ajax({
+        type: "POST",
+        url: "controller/load_custom.php",
+        data: section_service_data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        beforeSend: function() {
+            // $('#button-resend-otp').button('loading');
+        },
+        success: function(msg)
+        {
+            data = JSON.parse(msg);
+            
+            if(data.Success == "Success")
+            {
+                $('#section_services').show();
+                console.log(data.resp);
+                $('#section_services').html('');
+                $('#section_services').html(data.resp);
+                return false;
+            }
+            else if(data.Success == "fail") 
+            {
+                alert(data.resp);
+                return false;
+            }	
+        },
+        error: function (request, status, error)
+        {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);	
+        },
+        complete: function()
+        {
+            $('#button-resend-otp').button('reset');	
+        }	
+    });
 }
 
 function blockSpecialChar(e)
@@ -450,4 +499,127 @@ function getParticipate(user_id, user_client_token, client_id, micro_website_lin
     {
         // pending [have to discuss with Punit sir]
     }
+}
+
+function getDist(state_id)
+{
+    var sendInfo     = {"state_id":state_id, "get_dist":1};
+    var get_dist = JSON.stringify(sendInfo);
+    
+    $.ajax({
+        type: "POST",
+        url: "controller/load_custom.php",
+        data: get_dist,
+        processData: false,
+        contentType: false,
+        cache: false,
+        beforeSend: function() {
+            // $('#button-resend-otp').button('loading');
+        },
+        success: function(msg)
+        {
+            data = JSON.parse(msg);
+            
+            if(data.Success == "Success")
+            {
+                $('#div_dist').html(data.resp);
+                return false;
+            }
+            else if(data.Success == "fail") 
+            {
+                alert(data.resp);
+                return false;
+            }	
+        },
+        error: function (request, status, error)
+        {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);	
+        },
+        complete: function()
+        {
+            $('#button-resend-otp').button('reset');	
+        }	
+    });
+}
+
+function getTaluka(dist_id)
+{
+    var sendInfo     = {"dist_id":dist_id, "get_taluka":1};
+    var get_taluka = JSON.stringify(sendInfo);
+    
+    $.ajax({
+        type: "POST",
+        url: "controller/load_custom.php",
+        data: get_taluka,
+        processData: false,
+        contentType: false,
+        cache: false,
+        beforeSend: function() {
+            // $('#button-resend-otp').button('loading');
+        },
+        success: function(msg)
+        {
+            data = JSON.parse(msg);
+            
+            if(data.Success == "Success")
+            {
+                $('#div_taluka').html(data.resp);
+                return false;
+            }
+            else if(data.Success == "fail") 
+            {
+                alert(data.resp);
+                return false;
+            }	
+        },
+        error: function (request, status, error)
+        {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);	
+        },
+        complete: function()
+        {
+            $('#button-resend-otp').button('reset');	
+        }	
+    });
+}
+
+function getVillage(taluka_id)
+{
+    var sendInfo    = {"taluka_id":taluka_id, "get_village":1};
+    var get_village = JSON.stringify(sendInfo);
+    
+    $.ajax({
+        type: "POST",
+        url: "controller/load_custom.php",
+        data: get_village,
+        processData: false,
+        contentType: false,
+        cache: false,
+        beforeSend: function() {
+            // $('#button-resend-otp').button('loading');
+        },
+        success: function(msg)
+        {
+            data = JSON.parse(msg);
+            
+            if(data.Success == "Success")
+            {
+                $('#div_village').html(data.resp);
+                return false;
+            }
+            else if(data.Success == "fail") 
+            {
+                alert(data.resp);
+                return false;
+            }	
+        },
+        error: function (request, status, error)
+        {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);	
+        },
+        complete: function()
+        {
+            $('#button-resend-otp').button('reset');	
+        }	
+    });
 }

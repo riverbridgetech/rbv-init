@@ -44,7 +44,7 @@
                 <?php include("rbv_header.php"); ?>
             </div>
             <div class="hero-area">
-                <?php include("rbv_slider.php"); ?>
+                &nbsp;
             </div>
 
             <div id="main-container">
@@ -66,12 +66,15 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-md-8 col-sm-8">
-                                            <h4>User Profile</h4>
+                                            <h4>Complete your profile to gain access</h4>
                                             <form method="POST" enctype="multipart/form-data" class='form-validate' id="frm_user_profile" name="frm_user_profile" autocomplete="off">
 
                                                 <input type="hidden" name="hid_user_id" id="hid_user_id" value="<?php echo $_SESSION['rbv_init_user']['user_id']; ?>">
+                                                
                                                 <input type="email" class="form-control" placeholder="Email-ID" id="user_email" name="user_email" autocomplete="off" required>
                                                 
+                                                <input type="text" class="form-control" placeholder="Parent's Name" id="user_parent_name" name="user_parent_name" autocomplete="off" >
+
                                                 <select name="ddl_grade_list" id="ddl_grade_list" class="form-control">
                                                     <?php
                                                     $res_get_std_list = lookup_value('tbl_standards', array(), array('std_status'=>'1'),array(), array(), array(), array('std_sort_order'));
@@ -98,6 +101,50 @@
 
                                                 <input type="text" class="form-control" placeholder="School Name" id="user_school" name="user_school" autocomplete="off" >
 
+                                                <select name="user_state" id="user_state" class="form-control" onchange="getDist(this.value);">
+                                                    <?php
+                                                    $res_get_state_list = lookup_value('tbl_state', array(), array('st_status'=>'1'),array(), array(), array(), array('id'));
+                                                    if($res_get_state_list)
+                                                    {
+                                                        ?>
+                                                        <option value="">Select State</option>
+                                                        <?php
+                                                        while ($row_get_state_list = mysqli_fetch_array($res_get_state_list)) 
+                                                        {
+                                                            ?>
+                                                            <option value="<?php echo $row_get_state_list['id'] ?>"><?php echo ucwords($row_get_state_list['st_name']); ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <option value="">No Grades Found</option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+
+                                                <div id="div_dist">
+                                                    <select name="user_dist" id="user_dist" class="form-control" onchange="getTaluka(this.value);" disabled>
+                                                        <option value="">Select District</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div id="div_taluka">
+                                                    <select name="user_taluka" id="user_taluka" class="form-control" onchange="getVillage(this.value);" disabled>
+                                                        <option value="">Select Taluka</option>
+                                                    </select>                                                    
+                                                </div>
+
+                                                <div id="div_village">
+                                                    <select name="user_village" id="user_village" class="form-control" disabled>
+                                                        <option value="">Select Village</option>
+                                                    </select>
+                                                </div>
+
+
+
                                                 <!-- <button type="button" class="btn btn-primary" onClick="getLogin();">Login now</button> -->
                                                 <button type="submit" class="btn btn-primary" >Continue</button>
                                                 <!-- <input type="submit" value="Login now" class='btn btn-primary'> -->
@@ -112,97 +159,28 @@
                             </section>        
                             <?php
                         }
-                        else
-                        {
-                            ?>
-                            <section id="section_services">
-                                <div class="container">
-                                    <?php
-                                        $res_cilent_list = lookup_value('tbl_clients', array(), array('client_status'=>'1', 'client_frontend_flag'=>1),array(), array(), array(), array('client_sort_order'));
-                                        
-                                        $counter = 0;
-                                        $i = 0;
-                                        $html_data = '';
-                                        while ($row_cilent_list = mysqli_fetch_array($res_cilent_list)) 
-                                        {
-                                            $client_id         = $row_cilent_list['client_id'];
-                                            $client_name       = $row_cilent_list['client_name'];
-                                            $client_micro_link = $row_cilent_list['client_micro_link'];
-                                            $client_api_link   = $row_cilent_list['client_api_link'];
-                                            $client_desc_1     = $row_cilent_list['client_desc_1'];
-                                            $client_desc_2     = $row_cilent_list['client_desc_2'];
-                                            $client_img_1      = $row_cilent_list['client_img_1'];
-                                            $client_img_2      = $row_cilent_list['client_img_2'];
-                                            $client_sort_order = $row_cilent_list['client_sort_order'];
-
-                                            $counter++;
-                                            if($i%3==0)
-                                            {
-                                                ?>
-                                                <div class="row">
-                                                <?php
-                                            }
-                                            ?>
-                                            <div class="col-md-4 col-sm-4 services">
-                                                <?php 
-                                                    echo $client_name;
-                                                    
-                                                    // check already participated or not
-                                                    $row_chk_participated = check_exist('tbl_user_client_token', array('uct_user_id'=>$_SESSION['rbv_init_user']['user_id'], 'uct_client_id'=>$client_id));
-                                                            
-                                                    if($row_chk_participated)
-                                                    {
-                                                        $uct_status = $row_chk_participated['uct_status'];
-
-                                                        if($uct_status) // Status == 1
-                                                        {
-                                                            // chk expiry date
-                                                            // if not expired show "GO TO" btn
-                                                            ?>
-                                                            <a href="<?php echo $client_micro_link; ?>" class="btn btn-primary" target="_blank">Go To</a>
-                                                            <?php
-                                                              
-                                                            // else renew the token
-                                                            // ask Punit sir for further process
-                                                        }
-                                                        else    // status == 0
-                                                        {
-                                                            // pending [ask punit sir]
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        $userid            = (string)$_SESSION['rbv_init_user']['user_id'];
-                                                        $clientid          = (string)$client_id;
-                                                        $user_client_token = md5($userid.$clientid);
-
-                                                        ?>
-                                                        <a href="javascript:void(0);" class="btn btn-primary" onClick="getParticipate(<?php echo $_SESSION['rbv_init_user']['user_id']; ?>, '<?php echo $user_client_token; ?>', <?php echo $client_id; ?>, '<?php echo $client_micro_link; ?>', '<?php echo $client_api_link; ?>');">Participated</a>
-                                                        <?php
-                                                    }                                                    
-                                                ?>                                                
-                                            </div>
-                                            <?php
-                                            if($counter == 3)
-                                            {
-                                                $counter = 0;
-                                                ?>
-                                                </div>
-                                                <?php
-                                            }  
-                                            $i++;                                          
-                                        }                                        
-                                    ?>
-                                </div>
-                            </section>                            
-                            <?php
-                        }
+                        
                     ?>
+                    <section id="section_services">
+                        
+                    </section>
                 </div>
             </div>
             <?php include("rbv_footer.php"); ?>
         </div>
         <?php include("rbv_modal.php"); ?>
         <?php include("rbv_javascript.php"); ?>
+        <script>
+            <?php
+            if($user_email != '')
+            {
+                ?>
+                $( document ).ready(function() {
+                    getSectionServiceData();
+                });                
+                <?php
+            }
+            ?>
+        </script>
     </body>
 </html>

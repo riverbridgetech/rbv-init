@@ -261,7 +261,6 @@
             quit('Something went wrong, Please try after sometime!');
         }
     }
-
     
     if((isset($obj->user_login)) == "1" && (isset($obj->user_login)))
     {
@@ -317,16 +316,21 @@
 
     if((isset($obj->updateUserProfile)) == "1" && (isset($obj->updateUserProfile)))
     {
-        $user_id     = $obj->user_id;
-        $dataUserProfile['user_email']  = $obj->user_email;
-        $dataUserProfile['user_grade']  = $obj->user_grade;
-        $dataUserProfile['user_school'] = $obj->user_school;
+        $user_id                              = $obj->user_id;
+        $dataUserProfile['user_email']        = $obj->user_email;
+        $dataUserProfile['user_parents_name'] = $obj->user_parent_name;
+        $dataUserProfile['user_grade']        = $obj->user_grade;
+        $dataUserProfile['user_school']       = $obj->user_school;
+        $dataUserProfile['user_state']        = $obj->user_state;
+        $dataUserProfile['user_dist']         = $obj->user_dist;
+        $dataUserProfile['user_taluka']       = $obj->user_taluka;
+        $dataUserProfile['user_village']      = $obj->user_village;
 
         if($user_id != '' && $dataUserProfile['user_email'] != '')
         {
             // update user profile data in tbl_users table 
             $res_update_userprofile_data = update('tbl_users', $dataUserProfile, array('user_id'=>$user_id));
-
+            
             if($res_update_userprofile_data)
             {
                 quit('Success', 1);
@@ -392,6 +396,171 @@
                     quit('Something went wrong, Please try after sometime!');
                 }
             }
+        }
+        else
+        {
+            quit('Something went wrong, Please try after sometime!');
+        }
+    }
+
+    if((isset($obj->get_section_service_data)) == "1" && (isset($obj->get_section_service_data)))
+    {
+        $html_data = '';
+
+        $html_data .= '<div class="container">';
+            $res_cilent_list = lookup_value('tbl_clients', array(), array('client_status'=>'1', 'client_frontend_flag'=>1),array(), array(), array(), array('client_sort_order'));
+            
+            $counter = 0;
+            $i = 0;
+            while ($row_cilent_list = mysqli_fetch_array($res_cilent_list)) 
+            {
+                $client_id         = $row_cilent_list['client_id'];
+                $client_name       = $row_cilent_list['client_name'];
+                $client_micro_link = $row_cilent_list['client_micro_link'];
+                $client_api_link   = $row_cilent_list['client_api_link'];
+                $client_desc_1     = $row_cilent_list['client_desc_1'];
+                $client_desc_2     = $row_cilent_list['client_desc_2'];
+                $client_img_1      = $row_cilent_list['client_img_1'];
+                $client_img_2      = $row_cilent_list['client_img_2'];
+                $client_sort_order = $row_cilent_list['client_sort_order'];
+
+                $counter++;
+                if($i%3==0)
+                {
+                    $html_data .= '<div class="row">';
+                    
+                }
+                $html_data .= '<div class="col-md-4 col-sm-4 services">';
+                    $html_data .= $client_name;
+                        
+                        // check already participated or not
+                        $row_chk_participated = check_exist('tbl_user_client_token', array('uct_user_id'=>$_SESSION['rbv_init_user']['user_id'], 'uct_client_id'=>$client_id));
+                                
+                        if($row_chk_participated)
+                        {
+                            $uct_status = $row_chk_participated['uct_status'];
+
+                            if($uct_status) // Status == 1
+                            {
+                                // chk expiry date
+                                // if not expired show "GO TO" btn
+                                $html_data .= '<a href="'.$client_micro_link.'" class="btn btn-primary" target="_blank">Go To</a>';
+                                    
+                                // else renew the token
+                                // ask Punit sir for further process
+                            }
+                            else    // status == 0
+                            {
+                                // pending [ask punit sir]
+                            }
+                        }
+                        else
+                        {
+                            $userid            = (string)$_SESSION['rbv_init_user']['user_id'];
+                            $clientid          = (string)$client_id;
+                            $user_client_token = md5($userid.$clientid);
+
+                            $html_data .= '<a href="javascript:void(0);" class="btn btn-primary" onClick="getParticipate('.$_SESSION['rbv_init_user']['user_id'].', \''.$user_client_token.'\', '.$client_id.', \''.$client_micro_link.'\', \''.$client_api_link.'\');">Activate</a>';
+                        }                                                    
+                $html_data .= '</div>';
+                if($counter == 3)
+                {
+                    $counter = 0;
+                    $html_data .= '</div>';
+                }  
+                $i++;                                          
+            }                                        
+        $html_data .= '</div>';
+
+        quit($html_data, 1);
+    }
+
+    if((isset($obj->get_dist)) == "1" && (isset($obj->get_dist)))
+    {
+        $state_id = $obj->state_id;
+
+        if($state_id != '')
+        {
+            $html_data = '';
+            $html_data .= '<select name="user_dist" id="user_dist" class="form-control" onchange="getTaluka(this.value);">';
+                $res_get_dist_list = lookup_value('tbl_district', array(), array('dt_stid'=>$state_id),array(), array(), array(), array('id'));
+                if($res_get_dist_list)
+                {
+                    $html_data .= '<option value="">Select District</option>';
+                    while ($row_get_dist_list = mysqli_fetch_array($res_get_dist_list)) 
+                    {
+                        $html_data .= '<option value="'.$row_get_dist_list['id'].'">'.ucwords($row_get_dist_list['dt_name']).'</option>';
+                    }
+                }
+                else
+                {
+                    $html_data .= '<option value="">No Data Found</option>';
+                }
+            $html_data .= '</select>';
+
+            quit($html_data, 1);
+        }
+        else
+        {
+            quit('Something went wrong, Please try after sometime!');
+        }
+    }
+
+    if((isset($obj->get_taluka)) == "1" && (isset($obj->get_taluka)))
+    {
+        $dist_id = $obj->dist_id;
+
+        if($dist_id != '')
+        {
+            $html_data = '';
+            $html_data .= '<select name="user_taluka" id="user_taluka" class="form-control" onchange="getVillage(this.value);">';
+                $res_get_taluka_list = lookup_value('tbl_taluka', array(), array('tk_dtid'=>$dist_id),array(), array(), array(), array('id'));
+                if($res_get_taluka_list)
+                {
+                    $html_data .= '<option value="">Select Taluka</option>';
+                    while ($row_get_taluka_list = mysqli_fetch_array($res_get_taluka_list)) 
+                    {
+                        $html_data .= '<option value="'.$row_get_taluka_list['id'].'">'.ucwords($row_get_taluka_list['tk_name']).'</option>';
+                    }
+                }
+                else
+                {
+                    $html_data .= '<option value="">No Data Found</option>';
+                }
+            $html_data .= '</select>';
+
+            quit($html_data, 1);
+        }
+        else
+        {
+            quit('Something went wrong, Please try after sometime!');
+        }
+    }
+
+    if((isset($obj->get_village)) == "1" && (isset($obj->get_village)))
+    {
+        $taluka_id = $obj->taluka_id;
+
+        if($taluka_id != '')
+        {
+            $html_data = '';
+            $html_data .= '<select name="user_village" id="user_village" class="form-control">';
+                $res_get_village_list = lookup_value('tbl_village', array(), array('vl_tkid'=>$taluka_id),array(), array(), array(), array('id'));
+                if($res_get_village_list)
+                {
+                    $html_data .= '<option value="">Select Village</option>';
+                    while ($row_get_village_list = mysqli_fetch_array($res_get_village_list)) 
+                    {
+                        $html_data .= '<option value="'.$row_get_village_list['id'].'">'.ucwords($row_get_village_list['vl_name']).'</option>';
+                    }
+                }
+                else
+                {
+                    $html_data .= '<option value="">No Data Found</option>';
+                }
+            $html_data .= '</select>';
+
+            quit($html_data, 1);
         }
         else
         {
