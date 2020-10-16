@@ -26,7 +26,7 @@
 <meta name="keywords" content="Riverbridge Initiatives,RBV Initiatives, Initiatives">
 <meta name="author" content="Punit Panchal">
 
-<?php include("rbv_head.php") ?>
+<?php include("rbv_head.php"); ?>
 </head>
 
 <body class="home">
@@ -36,11 +36,11 @@
 <div class="body">
 	<!-- Site Header Wrapper -->
     <div id="section-home" class="site-header-wrapper">
-        <?php include("rbv_header.php") ?>
+        <?php include("rbv_header.php"); ?>
     </div>
     <!-- Hero Area -->
     <div class="hero-area">
-        <?php include("rbv_slider.php") ?>
+        <?php include("rbv_slider.php"); ?>
     </div>
     <div class="featured-links row">
     	<a href="#section-initiatives" class="page-scroll featured-link col-md-4 col-sm-4">
@@ -262,9 +262,9 @@
         <?php include("rbv_footer.php") ?>
 </div>
 
-<?php include("rbv_modal.php") ?>
+<?php include("rbv_modal.php"); ?>
 
-<?php include("rbv_javascript.php") ?>
+<?php include("rbv_javascript.php"); ?>
 
 </body>
 </html>

@@ -195,7 +195,7 @@ function resetOtpStatus()
             }
             else if(data.Success == "fail") 
             {
-                alert(data.resp);
+                // alert(data.resp);
                 return false;
             }	
         },
@@ -210,13 +210,32 @@ function resetOtpStatus()
     });
 }
 
+$('#frm_registration').on('submit', function(e) 
+{
+    e.preventDefault();
+    register_user();
+});
+
+$('#frm_login').on('submit', function(e) 
+{
+    e.preventDefault();
+    getLogin();
+});
+
+$('#frm_user_profile').on('submit', function(e) 
+{
+    e.preventDefault();
+    updateUserProfile();
+});
+
 function register_user()
 {
-    let user_name   = $('#user_name').val();
-    let user_mobile = $('#reg_mobile_num').val();
-    let input_otp   = $('#input-otp').val();
+    let user_first_name = $('#user_first_name').val();
+    let user_last_name  = $('#user_last_name').val();
+    let user_mobile     = $('#reg_mobile_num').val();
+    let input_otp       = $('#input-otp').val();
 
-    var sendInfo     = {"user_name":user_name, "user_mobile":user_mobile, "input_otp":input_otp, "register_user":1};
+    var sendInfo     = {"user_first_name":user_first_name, "user_last_name":user_last_name, "user_mobile":user_mobile, "input_otp":input_otp, "register_user":1};
     var registerUser = JSON.stringify(sendInfo);
     
     $.ajax({
@@ -236,7 +255,7 @@ function register_user()
             if(data.Success == "Success")
             {
                 console.log(data.resp);
-                window.location.replace("http://localhost/rbv-init/");
+                window.location.replace("http://localhost/rbv-init/dashboard.php");
                 return false;
             }
             else if(data.Success == "fail") 
@@ -282,7 +301,7 @@ function getLogin()
                 if(data.Success == "Success")
                 {
                     console.log(data.resp);
-                    window.location.replace("http://localhost/rbv-init/");
+                    window.location.replace("http://localhost/rbv-init/dashboard.php");
                     return false;
                 }
                 else if(data.Success == "fail") 
@@ -308,6 +327,76 @@ function getLogin()
         $('#login_mobile_num').val('');
         return false;
     }
+}
+
+function updateUserProfile()
+{
+    let user_id     = $('#hid_user_id').val();
+    let user_email  = $('#user_email').val();
+    let user_grade  = $('#ddl_grade_list').val();
+    let user_school = $('#user_school').val();
+
+    if(user_email != '')
+    {
+        var sendInfo     = {"user_id":user_id, "user_email":user_email, "user_grade":user_grade, "user_school":user_school, "updateUserProfile":1};
+        var updateUserProfile = JSON.stringify(sendInfo);
+        
+        $.ajax({
+            type: "POST",
+            url: "controller/load_custom.php",
+            data: updateUserProfile,
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                // $('#button-resend-otp').button('loading');
+            },
+            success: function(msg)
+            {
+                data = JSON.parse(msg);
+                
+                if(data.Success == "Success")
+                {
+                    $('#section_user_profile').hide();
+                    $('#section_services').show();
+                    return false;
+                }
+                else if(data.Success == "fail") 
+                {
+                    alert(data.resp);
+                    return false;
+                }	
+            },
+            error: function (request, status, error)
+            {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);	
+            },
+            complete: function()
+            {
+                $('#button-resend-otp').button('reset');	
+            }	
+        });
+    }
+    else
+    {
+        alert('Please enter an Email-ID!');
+        return false;
+    }
+}
+
+function blockSpecialChar(e)
+{
+    var k;
+    document.all ? k = e.keyCode : k = e.which;
+    // console.log(k);
+    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || (k < 48 && k > 57));
+}
+
+function numbersOnly(e)
+{
+    var k;
+    document.all ? k = e.keyCode : k = e.which;
+    return ((k >= 48 && k <= 57));
 }
 
 function getParticipate(user_id, user_client_token, client_id, micro_website_link, client_api_link)

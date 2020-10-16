@@ -86,10 +86,14 @@
       		<div class="modal-body">
        			<div class="row">
                 	<div class="col-md-6 col-sm-6 donation-form-infocol">
-                    	<h4>Login</h4>
-                        <input type="text" class="form-control" placeholder="Mobile No" id="login_mobile_num" name="login_mobile_num" autocomplete="off">
-                        <input type="text" class="form-control" placeholder="Password" id="login_password" name="login_password" autocomplete="off">
-                        <button type="button" class="btn btn-primary" onClick="getLogin();">Login now</button>
+						<h4>Login</h4>
+						<form method="POST" enctype="multipart/form-data" class='form-validate' id="frm_login" name="frm_login" autocomplete="off">
+							<input type="text" class="form-control" placeholder="Mobile No" maxlength="10" minlength="10" id="login_mobile_num" name="login_mobile_num" autocomplete="off" onkeypress="return numbersOnly(event)" required>
+							<input type="password" class="form-control" placeholder="Password" id="login_password" name="login_password" autocomplete="off" required>
+							<!-- <button type="button" class="btn btn-primary" onClick="getLogin();">Login now</button> -->
+							<button type="submit" class="btn btn-primary" >Login now</button>
+							<!-- <input type="submit" value="Login now" class='btn btn-primary'> -->
+						</form>
        					<!-- <div class="row">
                 			<div class="col-md-8 col-sm-8 col-xs-8">
                         		<input type="text" class="form-control" placeholder="State/City">
@@ -113,30 +117,28 @@
                     </div>
                 	<div class="col-md-6 col-sm-6 donation-form-infocol">
                     	<h4>Register</h4>
-       					<div class="row">
-                			<!-- <div class="col-md-6 col-sm-6 col-xs-6">
-                        		<input type="text" class="form-control" placeholder="First name">
-                            </div>
-                			<div class="col-md-6 col-sm-6 col-xs-6">
-                        		<input type="text" class="form-control" placeholder="Last name">
-                            </div> -->
-							<div class="col-md-12 col-sm-12 col-xs-12">
-                        		<input type="text" class="form-control" placeholder="Your Name" id="user_name" autocomplete="off">
-                            </div>
-                    	</div>
-                        <!-- <input type="text" class="form-control" placeholder="Email address"> -->
-                        <input type="text" class="form-control" placeholder="Phone no." maxlength="10" minlength="10" id="reg_mobile_num" onkeyup="sendOtp(this.value);" autocomplete="off">
-                        <div id="div_reg_otp" style="display:none;">
-							<input type="text" class="form-control" placeholder="6 digits" maxlength="6" minlength="6" id="input-otp" style="width: 28%;float:left;" autocomplete="off">
-							<span id="countdown"></span>
-							<div style="clear:both;"></div>
-							<div class="col-sm-12" id="Resendbtn">
-								<a href="javascript:void(0);" id="button-resend-otp" onclick="resendOtp();">Resend OTP</a>
+						<form method="POST" enctype="multipart/form-data" class='form-validate' id="frm_registration" name="frm_registration">
+							<div class="row">
+								<div class="col-md-6 col-sm-6 col-xs-6">
+									<input type="text" class="form-control" placeholder="First Name" id="user_first_name" autocomplete="off" onkeypress="return blockSpecialChar(event)" required>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-6">
+									<input type="text" class="form-control" placeholder="Last Name" id="user_last_name" autocomplete="off" onkeypress="return blockSpecialChar(event)" required>
+								</div>
 							</div>
-						</div>
-                        <button type="button" class="btn btn-primary" onclick="register_user();">Register now</button>
-                        <!-- <label class="checkbox"><input type="checkbox"> Register me on this website</label> -->
-
+							<!-- <input type="text" class="form-control" placeholder="Email address"> -->
+							<input type="text" class="form-control" placeholder="Phone no." maxlength="10" minlength="10" id="reg_mobile_num" onkeypress="return numbersOnly(event)" onkeyup="sendOtp(this.value);" autocomplete="off" required>
+							<div id="div_reg_otp" style="display:none;">
+								<input type="text" class="form-control" placeholder="6 digits" maxlength="6" minlength="6" id="input-otp" style="width: 28%;float:left;" autocomplete="off" required>
+								<span id="countdown"></span>
+								<div style="clear:both;"></div>
+								<div class="col-sm-12" id="Resendbtn">
+									<a href="javascript:void(0);" id="button-resend-otp" onclick="resendOtp();">Resend OTP</a>
+								</div>
+							</div>
+							<button type="submit" class="btn btn-primary" >Register now</button>
+							<!-- <label class="checkbox"><input type="checkbox"> Register me on this website</label> -->
+						</form>
                     </div>
                  </div>
       		</div>

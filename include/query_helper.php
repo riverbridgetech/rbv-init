@@ -4,7 +4,6 @@
     {
         //Make sure the array isn't empty
         global $db_con;
-
         if( empty( $variables ) )
         {
             return false;
@@ -24,12 +23,11 @@
         $values = '('. implode(', ', $values) .')';
         
         $sql .= $fields .' VALUES '. $values;
-        
+        // return $sql; 
         $stmt_insert = $db_con->prepare($sql);
         
         $params = array();
         $tmp = array();
-        
         foreach($variables as $field => $value )
         {   
             if(isset($params[0]))
@@ -42,12 +40,12 @@
             }
             array_push($params, $value);
         }
-
+        // return $params;
         foreach($params as $key => $value) 
         $tmp[$key] = &$params[$key];
-        
-        call_user_func_array(array($stmt_insert, 'bind_param'), $tmp);
 
+        call_user_func_array(array($stmt_insert, 'bind_param'), $tmp);
+        
         // Attempt to execute the prepared statement
         if($stmt_insert->execute()){
             return $db_con->insert_id;
@@ -76,8 +74,7 @@
     //updated by punit 16072020 for prevention
     // return $row 
     function check_exist($table,$where,$not_where_array=array(),$and_like_array=array(),$or_like_array=array())
-    {
-            
+    {            
         global $db_con;
     
         $sql =" SELECT * FROM ".$table." ";
@@ -122,7 +119,7 @@
                 $sql  .= " AND ".$field4 ." like '".$value4."' ";
             }
         }
-        
+        // return $sql;
         
         $stmt_chexist = $db_con->prepare($sql);
         
@@ -143,18 +140,18 @@
                 }
                 array_push($params, $value1);
             }
-            
+            // return $params;
             
             foreach($params as $key => $value) 
             $tmp[$key] = &$params[$key];
 
-            call_user_func_array(array($stmt_chexist, 'bind_param'), $tmp);
+            // call_user_func_array(array($stmt_chexist, 'bind_param'), $tmp);
         }
         
         //==Check Not Equal Condtions=====//
         if(!empty($not_where_array))
         {
-            $params = array();
+            // $params = array();
             foreach($not_where_array as $field2 => $value2 )
             {   
                 if(isset($params[0]))
@@ -168,11 +165,11 @@
                 array_push($params, $value2);
             }
             
-            
+            // return $params;
             foreach($params as $key => $value) 
             $tmp[$key] = &$params[$key];
 
-            call_user_func_array(array($stmt_chexist, 'bind_param'), $tmp);
+            // call_user_func_array(array($stmt_chexist, 'bind_param'), $tmp);
         }
         
         //==Check AND Like Condtions=====//
@@ -192,11 +189,11 @@
                 array_push($params, $value3);
             }
             
-            
+            // return $params;
             foreach($params as $key => $value) 
             $tmp[$key] = &$params[$key];
 
-            call_user_func_array(array($stmt_chexist, 'bind_param'), $tmp);
+            // call_user_func_array(array($stmt_chexist, 'bind_param'), $tmp);
         }
         
         //==Check AND Like Condtions=====//
@@ -220,25 +217,35 @@
             foreach($params as $key => $value) 
             $tmp[$key] = &$params[$key];
 
-            call_user_func_array(array($stmt_chexist, 'bind_param'), $tmp);
+            // call_user_func_array(array($stmt_chexist, 'bind_param'), $tmp);
         }
+
+        call_user_func_array(array($stmt_chexist, 'bind_param'), $tmp);
         
-        $stmt_chexist->execute();
-        $result = $stmt_chexist->get_result();
-        $nums = $result->num_rows;
-        
-        
-        if($nums == 0)
+        if($stmt_chexist->execute())
         {
-            return false;
+            $stmt_chexist->execute();
+            $result = $stmt_chexist->get_result();
+            $nums = $result->num_rows;
+            
+            if($nums == 0)
+            {
+                return false;
+            }
+            else
+            {
+                $row = $result->fetch_array();
+                $stmt_chexist->close();
+                // return $row['id'];
+                return $row;
+            }
         }
         else
         {
-            $row = $result->fetch_array();
-            $stmt_chexist->close();
-            // return $row['id'];
-            return $row;
+            // return $db_con->error;
+            return false;
         }
+
     }
 
     //updated by punit 23072020 for prevention

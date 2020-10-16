@@ -11,6 +11,11 @@
 <script src="js/init.js"></script> <!-- All Scripts -->
 <script src="vendor/flexslider/js/jquery.flexslider.js"></script> <!-- FlexSlider -->
 <script src="js/circle-progress.js"></script> <!-- Circle Progress Bars -->
+
+<!-- START : custom JS [dn by Prathamesh on 12102020] -->
+<script src="js/custom.js"></script><!-- Modernizr -->
+<!-- END : custom JS [dn by Prathamesh on 12102020] -->
+
 <!-- Style Switcher Start -->
 <!-- <script src="style-switcher/js/jquery_cookie.js"></script>
 <script src="style-switcher/js/script.js"></script>
