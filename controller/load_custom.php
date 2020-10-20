@@ -19,6 +19,7 @@
 
         $dataOTP['otp_mobile_otp']    = $mobile_otp;
         $dataOTP['otp_status']        = '1';
+        $dataOTP['otp_user_type']     = 'manual';
         
         if($row_chk_isExists)
         {

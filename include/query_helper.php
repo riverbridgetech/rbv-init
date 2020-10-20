@@ -51,6 +51,7 @@
             return $db_con->insert_id;
             // quit($db_con->insert_id);
         } else{
+            // return $db_con->error;
             return false;
             // quit("ERROR: Could not execute query:".$mysqli->error);
             
